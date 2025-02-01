@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use App\Models\User;
 use DB;
@@ -11,7 +12,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        return Client::with('user')->get();
+        return ClientResource::collection(Client::with('user')->get());
     }
 
     public function store(Request $request)
@@ -31,7 +32,7 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
-        return $client->load('user');
+        return new ClientResource($client->load('user'));
     }
 
     public function update(Request $request, Client $client)
