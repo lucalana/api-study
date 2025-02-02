@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClientResource extends JsonResource
 {
+    // public static $wrap = 'dados';
+
     /**
      * Transform the resource into an array.
      *
@@ -16,7 +18,7 @@ class ClientResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'user' => new UserResource($this->user),
+            'user' => $this->user->email,
             'created_at' => $this->created_at
         ];
     }
