@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientCollection;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
@@ -16,7 +18,7 @@ class ClientController extends Controller
         return new ClientCollection(Client::with('user')->get());
     }
 
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
         DB::transaction(function () use ($request): void {
             $user = User::create([
@@ -36,7 +38,7 @@ class ClientController extends Controller
         return new ClientResource($client->load('user'));
     }
 
-    public function update(Request $request, Client $client)
+    public function update(UpdateClientRequest $request, Client $client)
     {
         DB::transaction(function () use ($request, $client): void {
             $clientName = $request->get('name', $client->name);
