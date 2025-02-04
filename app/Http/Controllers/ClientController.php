@@ -13,13 +13,19 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->user()->tokenCant('client:store')) {
+            return response()->json([], 403);
+        }
         return new ClientCollection(Client::with('user')->get());
     }
 
     public function store(StoreClientRequest $request)
     {
+        if ($request->user()->tokenCant('client:store')) {
+            return response()->json([], 403);
+        }
         DB::transaction(function () use ($request): void {
             $user = User::create([
                 'name' => $request->get('name'),

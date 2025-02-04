@@ -21,7 +21,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'token' => $user->createToken($user->name . $user->created_at)->plainTextToken
+            'token' => $user->createToken($user->name . $user->created_at, ['client:index'])->plainTextToken
         ], 200);
     }
 
